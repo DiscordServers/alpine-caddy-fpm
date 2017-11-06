@@ -14,7 +14,7 @@ RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES \
     && cd $GOPATH/src/github.com/mholt/caddy/caddy \
     && git checkout tags/v0.10.10 \
     && go run build.go -goos=linux -goarch=amd64 \
-    && mv caddy /usr/sbin/caddy \
+    && mv caddy /usr/local/sbin/caddy \
     && apk del $BUILD_PACKAGES
 
 COPY ./manifest /
