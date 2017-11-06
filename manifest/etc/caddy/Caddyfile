@@ -1,4 +1,4 @@
-127.0.0.1:9000 {
+127.0.0.1:9001 {
     root /app/public
     log stdout
     errors stdout
@@ -13,7 +13,7 @@
     gzip
 }
 
-127.0.0.1:3000 {
+127.0.0.1:3001 {
     root /app/public
     log stdout
     errors stdout
