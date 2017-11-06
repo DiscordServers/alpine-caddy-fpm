@@ -1,0 +1,24 @@
+FROM php:rc-fpm-alpine
+MAINTAINER discordservers <admin@discordservers.com>
+
+ENV BUILD_PACKAGES="git zip make gcc g++ openssh-client tar" \
+    ESSENTIAL_PACKAGES="curl openssl-dev zlib supervisor libressl pcre linux-headers go" \
+    GOPATH="/root/go"
+
+RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES
+
+RUN mkdir -p $GOPATH/src \
+    && cd $GOPATH/src \
+    && go get -u github.com/mholt/caddy \
+    && go get -u github.com/caddyserver/builds \
+    && cd $GOPATH/src/github.com/mholt/caddy/caddy \
+    && git checkout tags/v0.10.10 \
+    && go run build.go -goos=linux -goarch=amd64 \
+    && mv caddy /usr/sbin/caddy \
+    && apk del $BUILD_PACKAGES
+
+COPY ./manifest /
+
+EXPOSE 80
+
+CMD /bin/bash /entrypoint.sh
