@@ -21,4 +21,4 @@ COPY ./manifest /
 
 EXPOSE 80
 
-CMD /bin/bash /entrypoint.sh
+CMD /usr/bin/supervisord -n -c /etc/supervisord.conf
