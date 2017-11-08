@@ -7,6 +7,11 @@ ENV BUILD_PACKAGES="git zip make gcc g++ openssh-client tar python py-pip" \
 
 RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES \
     && pip install supervisor-stdout \
+    && docker-php-ext-install pdo pdo_mysql pdo_postgres \
+    && pecl install redis apcu swoole \
+    && echo "extension=redis.so" >> /usr/local/etc/php/php.ini \
+    && echo "extension=apcu.so" >> /usr/local/etc/php/php.ini \
+    && echo "extension=swoole.so" >> /usr/local/etc/php/php.ini \
     && mkdir -p $GOPATH/src \
     && cd $GOPATH/src \
     && go get -u github.com/mholt/caddy \
