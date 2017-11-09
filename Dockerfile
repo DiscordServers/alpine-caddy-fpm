@@ -2,7 +2,7 @@ FROM php:rc-fpm-alpine
 MAINTAINER discordservers <admin@discordservers.com>
 
 ENV BUILD_PACKAGES="git zip make gcc g++ openssh-client tar python py-pip" \
-    ESSENTIAL_PACKAGES="curl openssl-dev zlib supervisor pcre linux-headers go postgresql-dev" \
+    ESSENTIAL_PACKAGES="curl zlib supervisor pcre linux-headers go postgresql-dev" \
     GOPATH="/root/go"
 
 RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES \
