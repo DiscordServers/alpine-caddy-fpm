@@ -9,9 +9,6 @@ RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES \
     && pip install supervisor-stdout \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql \
     && pecl install redis apcu swoole \
-    && echo "extension=redis.so" >> /usr/local/etc/php/conf.d/redis.ini \
-    && echo "extension=apcu.so" >> /usr/local/etc/php/conf.d/apcu.ini \
-    && echo "extension=swoole.so" >> /usr/local/etc/php/conf.d/swoole.ini \
     && mkdir -p $GOPATH/src \
     && cd $GOPATH/src \
     && go get -u github.com/mholt/caddy \
