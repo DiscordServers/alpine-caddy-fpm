@@ -8,7 +8,7 @@ ENV BUILD_PACKAGES="pcre-dev make gcc g++ openssh-client tar python py-pip autoc
 RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES \
     && apk add --virtual devs curl \
     && pip install supervisor-stdout \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql sockets \
     && pecl install redis apcu swoole \
     && mkdir -p $GOPATH/src \
     && cd $GOPATH/src \
