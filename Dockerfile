@@ -1,6 +1,8 @@
 FROM php:rc-fpm-alpine
 MAINTAINER discordservers <admin@discordservers.com>
 
+ARG MEMORY_LIMIT="512M"
+
 ENV BUILD_PACKAGES="pcre-dev make gcc g++ openssh-client tar python py-pip autoconf" \
     ESSENTIAL_PACKAGES="git zip curl zlib supervisor pcre linux-headers go postgresql-dev" \
     GOPATH="/root/go"
@@ -8,6 +10,7 @@ ENV BUILD_PACKAGES="pcre-dev make gcc g++ openssh-client tar python py-pip autoc
 RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES \
     && apk add --virtual devs curl \
     && pip install supervisor-stdout \
+    && echo "memory_limit = ${MEMORY_LIMIT}" >> /usr/local/etc/php/php.ini \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql sockets \
     && pecl install redis apcu swoole \
     && mkdir -p $GOPATH/src \
