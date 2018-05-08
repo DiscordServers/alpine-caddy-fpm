@@ -1,4 +1,4 @@
-FROM php:rc-fpm-alpine
+FROM php:fpm-alpine
 MAINTAINER discordservers <admin@discordservers.com>
 
 ARG MEMORY_LIMIT="512M"
