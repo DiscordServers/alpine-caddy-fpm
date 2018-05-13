@@ -12,8 +12,13 @@ RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES \
     && pip install supervisor-stdout \
     && echo "memory_limit = ${MEMORY_LIMIT}" >> /usr/local/etc/php/php.ini \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql sockets \
-    && pecl install redis apcu swoole \
-    && mkdir -p $GOPATH/src \
+    && pecl install redis apcu \
+    && curl --silent --show-error https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && chmod +x /usr/local/bin/composer \
+    && composer global require hirak/prestissimo
+
+RUN mkdir -p $GOPATH/src \
     && cd $GOPATH/src \
     && go get -u github.com/mholt/caddy \
     && go get -u github.com/caddyserver/builds \
@@ -22,10 +27,6 @@ RUN apk add --update --no-cache --progress $ESSENTIAL_PACKAGES $BUILD_PACKAGES \
     && go run build.go -goos=linux -goarch=amd64 \
     && mv caddy /usr/local/sbin/caddy \
     && apk del $BUILD_PACKAGES \
-    && curl --silent --show-error https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer \
-    && chmod +x /usr/local/bin/composer \
-    && composer global require hirak/prestissimo
 
 
 COPY ./manifest /
